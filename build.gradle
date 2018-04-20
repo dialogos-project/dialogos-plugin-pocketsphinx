@@ -1,25 +1,28 @@
 plugins {
   id 'java'
   id 'maven'
-//id 'application'
+  id 'application'
 }
 repositories {
   jcenter()
+  maven { // for Sphinx-4 recognizer
+    url "https://oss.sonatype.org/content/repositories/snapshots"
+  }
   maven { url "https://jitpack.io" }
 }
 
 dependencies {
   compile(group:'com.github.coli-saar', name:'dialogos', version:'master-SNAPSHOT') {
-    exclude module: 'DialogOS_PocketSphinxPlugin'
-    exclude module: 'DialogOS_NxtPlugin'
-    exclude module: 'DialogOS_MinimalInputOutput'
     exclude module: 'DialogOS_SphinxPlugin'
     exclude module: 'DialogOS_MaryTTSPlugin'
   }
   compile files('lib/pocketsphinx.jar')
+
+  // at runtime, we also want the plugins for TTS&ASR
+  runtime(group:'com.github.coli-saar', name:'dialogos', version:'master-SNAPSHOT')
   
   compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
   compile group: 'org.zeroturnaround', name:'zt-zip', version: '1.12'
 }
-//mainClassName = 'com.clt.dialogos.DialogOS'
+mainClassName = 'com.clt.dialogos.DialogOS'
 def version = 0.9
